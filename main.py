@@ -30,8 +30,8 @@ def main():
     print(f"Tempo total de simulação: {resultado['tempo_total']:.2f}s")
     print(f"Tempo médio de resposta: {resultado['media_resposta']:.2f}s")
     print(f"Throughput: {resultado['throughput']:.2f} req/s")
-    print(f"Tempo máximo de espera: {resultado["tempo_espera_maximo"]:.2f}s")
-    print(f"Tempo de espera médio: {resultado["tempo_espera_medio"]:.2f}s")
+    print(f"Tempo máximo de espera: {resultado['tempo_espera_maximo']:.2f}s")
+    print(f"Tempo de espera médio: {resultado['tempo_espera_medio']:.2f}s")
     print(f"Uso de CPU: {porcentagem_cpu:.5f}%")
 
     print("\nDetalhes: tempos de resposta individuais:")
