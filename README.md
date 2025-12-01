@@ -45,5 +45,5 @@ Nenhuma instalação via pip é necessária.
 
 ## Autores
 
-Victor Kazuo Soares Honda
+Victor Kazuo Soares Honda;
 Arthur Jannuzi Rocha 
