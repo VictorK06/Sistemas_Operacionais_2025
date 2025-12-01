@@ -1,0 +1,105 @@
+Relatório do Trabalho:
+1. Introdução
+O presente projeto simula um sistema de orquestração de tarefas de inteligência artificial utilizado pela empresa fictícia BSB Compute, responsável por distribuir milhares de requisições em servidores de inferência paralelos.
+Cada requisição demanda capacidade computacional, prioridade e tempos distintos, exigindo um sistema capaz de tomar decisões rápidas em ambiente concorrente.
+Este projeto aplica os principais conteúdos da disciplina de Sistemas Operacionais:
+.Criação de processos
+.Comunicação entre processos (IPC)
+.Escalonamento
+.Sincronização
+.Monitoramento de desempenho
+A implementação foi realizada em Python, usando o módulo multiprocessing, que permite criar processos reais com filas de comunicação.
+
+2. Objetivos
+2.1 Objetivo Geral
+Desenvolver um sistema de orquestração concorrente que distribui tarefas entre servidores, simulando cargas reais e políticas de escalonamento.
+2.2 Objetivos Específicos
+.Criar processos independentes (orquestrador e servidores).
+.Implementar IPC via multiprocessing.Queue.
+.Simular políticas de escalonamento:
+-Round Robin (RR)
+-Shortest Job First (SJF)
+-Prioridade
+.Registrar logs detalhados dos eventos.
+.Calcular métricas de desempenho:
+-Tempo médio de resposta
+-Throughput
+-Tempo total de execução
+-Simular chegada dinâmica de requisições.
+
+3. Arquitetura do Sistema
+O sistema possui dois tipos de processos:
+3.1 Orquestrador (Master)
+.Recebe e organiza requisições.
+.Aplica a política de escalonamento.
+.Seleciona o servidor ideal com base na carga.
+.Envia tarefas via IPC (fila).
+.Recebe resultados dos workers.
+.Mantém logs e calcula métricas.
+3.2 Servidores de Inferência (Workers)
+.Simulam execução de tarefas de IA.
+.Executam uma tarefa por vez (por processo).
+.Tempo de execução é reduzido proporcionalmente à capacidade do servidor.
+.Reportam início e fim da tarefa.
+3.3 Comunicação Entre Processos
+O IPC utilizado é multiprocessing.Queue, por ser:
+.Seguro para processos distintos
+.Simples de integrar com Python
+.Não exige threads adicionais
+.Não gera deadlocks por padrão
+Canais:
+.Orquestrador → Worker: fila de tarefas
+.Worker → Orquestrador: fila de resultados 
+
+4. Políticas de Escalonamento Implementadas
+4.1 Round Robin (RR)
+Distribui a próxima requisição da fila na ordem de chegada.
+4.2 Shortest Job First (SJF)
+Ordena a fila com base no menor tempo de execução estimado.
+4.3 Prioridade
+Ordena baseado no nível de prioridade:
+-1 = Alta
+-2 = Média
+-3 = Baixa
+
+5. Estratégias de Sincronização e Robustez
+5.1 Evitando Deadlocks
+.Workers nunca bloqueiam esperando dados: usam fila não bloqueante.
+.Orquestrador consome e produz mensagens de forma contínua.
+.Um comando "STOP" é enviado no final para encerrar os workers.
+5.2 Balanceamento de Carga
+Para cada tarefa, o orquestrador seleciona o servidor com menor carga atual, simulando load balancing real.
+5.3 Tolerância a Picos
+A chegada das requisições é probabilística (50% por ciclo), simulando ambiente real de data centers.
+
+6. Fluxo Geral do Sistema
+6.1 Etapas
+-1.Carregar configuração JSON
+-2.Criar o orquestrador
+-3.Inicializar workers como processos independentes
+-4.Cada worker escuta sua própria fila de entrada
+-5.O orquestrador decide qual tarefa enviar
+-6.Worker executa e reporta conclusão
+-7.Orquestrador monitora a fila e registra dados
+-8.Quando todas as tarefas finalizam → calculam-se as métricas
+
+7. Arquivos
+main.py
+-Ponto de entrada
+-Carrega config
+-Executa o orquestrador
+orchestrator.py
+-Processos
+-Filas
+-Logs
+-Métricas
+worker.py
+-Simula o servidor
+-Executa tarefas
+-Envia resultados
+scheduler.py
+-Escolhe política
+-Regras de ordenação
+config.json
+-Lista de servidores
+-Lista de requisições
