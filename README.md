@@ -38,11 +38,6 @@ O sistema distribui requisições entre servidores (workers) de acordo com difer
 python main.py
 ```
 
-## Requisitos
-
-O projeto utiliza apenas bibliotecas internas do Python.
-Nenhuma instalação via pip é necessária.
-
 ## Autores
 
 Victor Kazuo Soares Honda;
