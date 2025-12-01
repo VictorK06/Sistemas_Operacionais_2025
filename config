@@ -1,4 +1,7 @@
 {
+  "politica": "SJF",
+  "arrival_lambda": 0.7,
+  "max_load_per_server": 3,
   "servidores": [
     {"id": 1, "capacidade": 3},
     {"id": 2, "capacidade": 2},
